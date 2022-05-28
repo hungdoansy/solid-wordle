@@ -1,7 +1,8 @@
 import { createMemo, For, onMount } from "solid-js"
+
 import { getStatusesOfLetters } from "utils/statuses"
-import { ENTER_TEXT, DELETE_TEXT } from "constants/strings"
 import { localeAwareUpperCase } from "utils/words"
+import { ENTER_TEXT, DELETE_TEXT } from "constants/strings"
 
 import { Key } from "./Key"
 
@@ -15,14 +16,12 @@ type Props = {
 }
 
 export const Keyboard = (props: Props) => {
-    const solution = createMemo(() => props.solution)
-    const guesses = createMemo(() => props.guesses)
-    const charStatuses = createMemo(() => getStatusesOfLetters(solution(), guesses()))
+    const charStatuses = createMemo(() => getStatusesOfLetters(props.solution, props.guesses))
 
     const onClick = (value: string) => {
-        if (value === "ENTER") {
+        if (value === ENTER_TEXT) {
             props.onEnter()
-        } else if (value === "DELETE") {
+        } else if (value === DELETE_TEXT) {
             props.onDelete()
         } else {
             props.onChar(value)
@@ -54,27 +53,45 @@ export const Keyboard = (props: Props) => {
             <div class="flex justify-center mb-1">
                 <For each={["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"]}>
                     {(key) => (
-                        <Key value={key} onClick={onClick} status={charStatuses[key]} isRevealing={props.isRevealing} />
+                        <Key
+                            width={40}
+                            value={key}
+                            onClick={onClick}
+                            status={charStatuses()[key]}
+                            isRevealing={props.isRevealing}
+                        />
                     )}
                 </For>
             </div>
             <div class="flex justify-center mb-1">
                 <For each={["A", "S", "D", "F", "G", "H", "J", "K", "L"]}>
                     {(key) => (
-                        <Key value={key} onClick={onClick} status={charStatuses[key]} isRevealing={props.isRevealing} />
+                        <Key
+                            width={40}
+                            value={key}
+                            onClick={onClick}
+                            status={charStatuses()[key]}
+                            isRevealing={props.isRevealing}
+                        />
                     )}
                 </For>
             </div>
             <div class="flex justify-center">
-                <Key width={65.4} value="ENTER" onClick={onClick}>
+                <Key width={65.4} value={ENTER_TEXT} onClick={onClick}>
                     {ENTER_TEXT}
                 </Key>
                 <For each={["Z", "X", "C", "V", "B", "N", "M"]}>
                     {(key) => (
-                        <Key value={key} onClick={onClick} status={charStatuses[key]} isRevealing={props.isRevealing} />
+                        <Key
+                            width={40}
+                            value={key}
+                            onClick={onClick}
+                            status={charStatuses()[key]}
+                            isRevealing={props.isRevealing}
+                        />
                     )}
                 </For>
-                <Key width={65.4} value="DELETE" onClick={onClick}>
+                <Key width={65.4} value={DELETE_TEXT} onClick={onClick}>
                     {DELETE_TEXT}
                 </Key>
             </div>

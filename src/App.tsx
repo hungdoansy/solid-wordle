@@ -1,9 +1,12 @@
-import { Component, createSignal } from "solid-js"
+import { Component, createEffect, createSignal } from "solid-js"
 import GraphemeSplitter from "grapheme-splitter"
 
 import { Keyboard } from "components/Keyboard"
+import { Grid } from "components/Grid"
 import { MAX_GUESSES, REVEAL_TIME_MS } from "constants/settings"
 import { isWinningWord, solution, unicodeLength } from "utils/words"
+
+console.log({ solution })
 
 const App: Component = () => {
     const [currentGuess, setCurrentGuess] = createSignal("")
@@ -12,13 +15,17 @@ const App: Component = () => {
     const [isRevealing, setRevealing] = createSignal(false)
     const [guesses, setGuesses] = createSignal<string[]>([])
 
+    createEffect(() => {
+        console.log("currentGuess", currentGuess())
+    })
+
     const onChar = (value: string) => {
         if (
-            unicodeLength(`${currentGuess}${value}`) <= solution.length &&
-            guesses.length < MAX_GUESSES &&
+            unicodeLength(`${currentGuess()}${value}`) <= solution.length &&
+            guesses().length < MAX_GUESSES &&
             !isGameWon()
         ) {
-            setCurrentGuess(`${currentGuess}${value}`)
+            setCurrentGuess(`${currentGuess()}${value}`)
         }
     }
 
@@ -59,6 +66,14 @@ const App: Component = () => {
     return (
         <div class="h-screen flex flex-col">
             <div class="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
+                <div class="pb-6 grow">
+                    <Grid
+                        solution={solution}
+                        guesses={guesses()}
+                        currentGuess={currentGuess()}
+                        isRevealing={isRevealing()}
+                    />
+                </div>
                 <Keyboard
                     onChar={onChar}
                     onDelete={onDelete}
