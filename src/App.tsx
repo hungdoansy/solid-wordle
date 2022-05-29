@@ -3,6 +3,7 @@ import GraphemeSplitter from "grapheme-splitter"
 
 import { Keyboard } from "components/Keyboard"
 import { Grid } from "components/Grid"
+import NavBar from "components/NavBar"
 import { MAX_GUESSES, REVEAL_TIME_MS } from "constants/settings"
 import { isWinningWord, solution, unicodeLength } from "utils/words"
 
@@ -65,6 +66,7 @@ const App: Component = () => {
 
     return (
         <div class="h-screen flex flex-col">
+            <NavBar />
             <div class="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
                 <div class="pb-6 grow">
                     <Grid
