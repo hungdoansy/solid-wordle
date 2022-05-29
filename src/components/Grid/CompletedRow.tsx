@@ -1,4 +1,4 @@
-import { Component, createMemo, For } from "solid-js"
+import { Component, For } from "solid-js"
 
 import { getGuessStatuses } from "utils/statuses"
 import { unicodeSplit } from "utils/words"
@@ -12,8 +12,8 @@ type Props = {
 }
 
 export const CompletedRow: Component<Props> = (props) => {
-    const statuses = createMemo(() => getGuessStatuses(props.solution, props.guess))
-    const splitGuess = createMemo(() => unicodeSplit(props.guess))
+    const statuses = () => getGuessStatuses(props.solution, props.guess)
+    const splitGuess = () => unicodeSplit(props.guess)
 
     return (
         <div class="flex justify-center mb-1">

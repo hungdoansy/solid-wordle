@@ -1,5 +1,5 @@
 import { MAX_GUESSES } from "constants/settings"
-import { Component, createMemo, For, Show } from "solid-js"
+import { Component, For, Show } from "solid-js"
 
 import { CompletedRow } from "./CompletedRow"
 import { CurrentRow } from "./CurrentRow"
@@ -13,9 +13,8 @@ type Props = {
 }
 
 export const Grid: Component<Props> = (props) => {
-    const empties = createMemo(() =>
+    const empties = () =>
         props.guesses.length < MAX_GUESSES - 1 ? Array.from(Array(MAX_GUESSES - 1 - props.guesses.length)) : []
-    )
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { createMemo, For, onMount } from "solid-js"
+import { For, onMount } from "solid-js"
 
 import { getStatusesOfLetters } from "utils/statuses"
 import { localeAwareUpperCase } from "utils/words"
@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const Keyboard = (props: Props) => {
-    const charStatuses = createMemo(() => getStatusesOfLetters(props.solution, props.guesses))
+    const charStatuses = () => getStatusesOfLetters(props.solution, props.guesses)
 
     const onClick = (value: string) => {
         if (value === ENTER_TEXT) {

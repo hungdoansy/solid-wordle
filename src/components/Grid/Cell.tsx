@@ -1,4 +1,4 @@
-import { Component, createMemo, mergeProps } from "solid-js"
+import { Component, mergeProps } from "solid-js"
 
 import { CharStatus } from "utils/statuses"
 import { REVEAL_TIME_MS } from "constants/settings"
@@ -15,10 +15,9 @@ export const Cell: Component<Props> = (_props) => {
     const props = mergeProps({ position: 0, value: "" }, _props)
 
     const isHighContrast = false
-    const isFilled = createMemo(() => props.value && !props.isCompleted)
-    const shouldReveal = createMemo(() => props.isRevealing && props.isCompleted)
-    const animationDelay = createMemo(() => `${props.position * REVEAL_TIME_MS}ms`)
-    const value = createMemo(() => props.value)
+    const isFilled = () => props.value && !props.isCompleted
+    const shouldReveal = () => props.isRevealing && props.isCompleted
+    const animationDelay = () => `${props.position * REVEAL_TIME_MS}ms`
 
     const classList = () => ({
         "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600": !props.status,
@@ -44,7 +43,7 @@ export const Cell: Component<Props> = (_props) => {
             style={{ "animation-delay": animationDelay() }}
         >
             <div class="letter-container" style={{ "animation-delay": animationDelay() }}>
-                {value()}
+                {props.value}
             </div>
         </div>
     )
