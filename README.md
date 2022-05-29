@@ -1,34 +1,22 @@
-## Usage
+# Solid Wordle - Solidle
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+This is a clone project of [React Wordle](https://github.com/cwackerfuss/react-wordle), which is also a clone project of the popular word guessing game we all know and love. Made using [Solid](https://www.solidjs.com/), Typescript, and Tailwind.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+[**Try out the demo!**](https://solidle.vercel.app/)
+
+## Build and run
+
+### To Run Locally:
+
+Make sure you have installed `yarn: ^1.0.0`. Clone the repository and perform the following command line actions:
 
 ```bash
-$ npm install # or pnpm install or yarn install
+$> cd solid-wordle
+$> yarn
+$> yarn dev
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## P/S
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm dev` or `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+This project was highly inspired by [React Wordle](https://github.com/cwackerfuss/react-wordle), just my try on Solid. Tho I know Solid and React share maybe 80% of their syntaxes, I was super amazed by how fast and easy to migrate React codes to Solid ones.
+If you're a React developer, learning Solid won't be that long for sure. Give Solid a shot!
