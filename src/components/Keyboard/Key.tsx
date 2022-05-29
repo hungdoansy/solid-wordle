@@ -1,5 +1,4 @@
-import { children, Component, createMemo, JSX } from "solid-js"
-import classnames from "classnames"
+import { children, Component, JSX } from "solid-js"
 
 import { REVEAL_TIME_MS } from "constants/settings"
 import { CharStatus } from "utils/statuses"
@@ -22,30 +21,25 @@ export const Key: Component<Props> = (props) => {
     // TODO
     const isHighContrast = false
 
-    const classes = createMemo(() =>
-        classnames(
-            "flex items-center justify-center rounded mx-0.5 text-sm font-bold cursor-pointer select-none dark:text-white",
-            {
-                "transition ease-in-out": props.isRevealing,
-                "bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 active:bg-slate-400": !props.status,
-                "bg-slate-400 dark:bg-slate-800 text-white": props.status === CharStatus.Absent,
-                "bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white":
-                    props.status === CharStatus.Correct && isHighContrast,
-                "bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 text-white":
-                    props.status === CharStatus.Present && isHighContrast,
-                "bg-green-500 hover:bg-green-600 active:bg-green-700 text-white":
-                    props.status === CharStatus.Correct && !isHighContrast,
-                "bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white":
-                    props.status === CharStatus.Present && !isHighContrast,
-            }
-        )
-    )
+    const classList = () => ({
+        "transition ease-in-out": props.isRevealing,
+        "bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 active:bg-slate-400": !props.status,
+        "bg-slate-400 dark:bg-slate-800 text-white": props.status === CharStatus.Absent,
+        "bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white":
+            props.status === CharStatus.Correct && isHighContrast,
+        "bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 text-white":
+            props.status === CharStatus.Present && isHighContrast,
+        "bg-green-500 hover:bg-green-600 active:bg-green-700 text-white":
+            props.status === CharStatus.Correct && !isHighContrast,
+        "bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white":
+            props.status === CharStatus.Present && !isHighContrast,
+    })
 
-    const styles = createMemo(() => ({
-        transitionDelay: props.isRevealing ? `${keyDelayInMs}ms` : "unset",
+    const styles = () => ({
+        "transition-delay": props.isRevealing ? `${keyDelayInMs}ms` : "unset",
         width: `${props.width}px`,
         height: "58px",
-    }))
+    })
 
     const handleClick: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent> = (event) => {
         props.onClick(props.value)
@@ -53,7 +47,13 @@ export const Key: Component<Props> = (props) => {
     }
 
     return (
-        <button style={styles()} aria-label={`${props.value} ${props.status}`} class={classes()} onClick={handleClick}>
+        <button
+            class="flex items-center justify-center rounded mx-0.5 text-sm font-bold cursor-pointer select-none dark:text-white"
+            classList={classList()}
+            style={styles()}
+            aria-label={`${props.value} ${props.status || CharStatus.Absent}`}
+            onClick={handleClick}
+        >
             {resolved() || props.value}
         </button>
     )
