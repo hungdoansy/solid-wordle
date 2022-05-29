@@ -1,4 +1,4 @@
-import { For, onMount } from "solid-js"
+import { Index, onMount } from "solid-js"
 
 import { getStatusesOfLetters } from "utils/statuses"
 import { localeAwareUpperCase } from "utils/words"
@@ -51,46 +51,46 @@ export const Keyboard = (props: Props) => {
     return (
         <div>
             <div class="flex justify-center mb-1">
-                <For each={["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"]}>
+                <Index each={["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"]}>
                     {(key) => (
                         <Key
                             width={40}
-                            value={key}
+                            value={key()}
                             onClick={onClick}
-                            status={charStatuses()[key]}
+                            status={charStatuses()[key()]}
                             isRevealing={props.isRevealing}
                         />
                     )}
-                </For>
+                </Index>
             </div>
             <div class="flex justify-center mb-1">
-                <For each={["A", "S", "D", "F", "G", "H", "J", "K", "L"]}>
+                <Index each={["A", "S", "D", "F", "G", "H", "J", "K", "L"]}>
                     {(key) => (
                         <Key
                             width={40}
-                            value={key}
+                            value={key()}
                             onClick={onClick}
-                            status={charStatuses()[key]}
+                            status={charStatuses()[key()]}
                             isRevealing={props.isRevealing}
                         />
                     )}
-                </For>
+                </Index>
             </div>
             <div class="flex justify-center">
                 <Key width={65.4} value={ENTER_TEXT} onClick={onClick}>
                     {ENTER_TEXT}
                 </Key>
-                <For each={["Z", "X", "C", "V", "B", "N", "M"]}>
+                <Index each={["Z", "X", "C", "V", "B", "N", "M"]}>
                     {(key) => (
                         <Key
                             width={40}
-                            value={key}
+                            value={key()}
                             onClick={onClick}
-                            status={charStatuses()[key]}
+                            status={charStatuses()[key()]}
                             isRevealing={props.isRevealing}
                         />
                     )}
-                </For>
+                </Index>
                 <Key width={65.4} value={DELETE_TEXT} onClick={onClick}>
                     {DELETE_TEXT}
                 </Key>

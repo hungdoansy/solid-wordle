@@ -1,4 +1,4 @@
-import { Component, For } from "solid-js"
+import { Component, Index } from "solid-js"
 import { solution } from "utils/words"
 import { Cell } from "./Cell"
 
@@ -7,7 +7,7 @@ export const EmptyRow: Component = () => {
 
     return (
         <div class="flex justify-center mb-1">
-            <For each={emptyCells}>{() => <Cell />}</For>
+            <Index each={emptyCells}>{() => <Cell />}</Index>
         </div>
     )
 }

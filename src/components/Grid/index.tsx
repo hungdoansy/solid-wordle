@@ -1,5 +1,5 @@
+import { Component, Index, Show } from "solid-js"
 import { MAX_GUESSES } from "constants/settings"
-import { Component, For, Show } from "solid-js"
 
 import { CompletedRow } from "./CompletedRow"
 import { CurrentRow } from "./CurrentRow"
@@ -18,21 +18,15 @@ export const Grid: Component<Props> = (props) => {
 
     return (
         <>
-            <For each={props.guesses}>
-                {(guess, i) => (
-                    <CompletedRow
-                        solution={props.solution}
-                        guess={guess}
-                        isRevealing={props.isRevealing && props.guesses.length - 1 === i()}
-                    />
-                )}
-            </For>
+            <Index each={props.guesses}>
+                {(guess, i) => <CompletedRow solution={props.solution} guess={guess()} />}
+            </Index>
 
             <Show when={props.guesses.length < MAX_GUESSES}>
                 <CurrentRow guess={props.currentGuess} />
             </Show>
 
-            <For each={empties()}>{() => <EmptyRow />}</For>
+            <Index each={empties()}>{() => <EmptyRow />}</Index>
         </>
     )
 }

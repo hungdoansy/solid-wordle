@@ -1,4 +1,4 @@
-import { Component, For } from "solid-js"
+import { Component, Index } from "solid-js"
 import { solution, unicodeSplit } from "utils/words"
 import { Cell } from "./Cell"
 
@@ -12,8 +12,8 @@ export const CurrentRow: Component<Props> = (props) => {
 
     return (
         <div class="flex justify-center mb-1">
-            <For each={splitGuess()}>{(letter) => <Cell value={letter} />}</For>
-            <For each={emptyCells()}>{() => <Cell />}</For>
+            <Index each={splitGuess()}>{(letter) => <Cell value={letter()} />}</Index>
+            <Index each={emptyCells()}>{() => <Cell />}</Index>
         </div>
     )
 }
