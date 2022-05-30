@@ -1,30 +1,24 @@
-import { Component, createEffect, createSignal } from "solid-js"
+import { Component, createEffect } from "solid-js"
 import GraphemeSplitter from "grapheme-splitter"
 
 import { Keyboard } from "components/Keyboard"
 import { Grid } from "components/Grid"
 import NavBar from "components/NavBar"
+import { useGlobalState } from "contexts/globalState"
 import { MAX_GUESSES, REVEAL_TIME_MS } from "constants/settings"
-import { isWinningWord, solution, unicodeLength } from "utils/words"
-
-console.log({ solution })
+import { solution, unicodeLength } from "utils/words"
 
 const App: Component = () => {
-    const [currentGuess, setCurrentGuess] = createSignal("")
-    const [isGameWon, setGameWon] = createSignal(false)
-    const [isGameLost, setGameLost] = createSignal(false)
-    const [isRevealing, setRevealing] = createSignal(false)
-    const [guesses, setGuesses] = createSignal<string[]>([])
+    const { answer, currentGuess, setCurrentGuess, setRevealing, guesses, setGuesses } = useGlobalState()
 
-    createEffect(() => {
-        console.log("currentGuess", currentGuess())
-    })
+    const hasWon = () => guesses().includes(answer)
+    const hasLost = () => !hasWon() && guesses().length === MAX_GUESSES
 
     const onChar = (value: string) => {
         if (
             unicodeLength(`${currentGuess()}${value}`) <= solution.length &&
             guesses().length < MAX_GUESSES &&
-            !isGameWon()
+            !hasWon()
         ) {
             setCurrentGuess(`${currentGuess()}${value}`)
         }
@@ -35,7 +29,7 @@ const App: Component = () => {
     }
 
     const onEnter = () => {
-        if (isGameWon() || isGameLost()) {
+        if (hasWon() || hasLost()) {
             return
         }
 
@@ -46,44 +40,24 @@ const App: Component = () => {
             setRevealing(false)
         }, REVEAL_TIME_MS * solution.length)
 
-        const winningWord = isWinningWord(currentGuess())
-
-        if (unicodeLength(currentGuess()) === solution.length && guesses().length < MAX_GUESSES && !isGameWon()) {
+        if (unicodeLength(currentGuess()) === solution.length && guesses().length < MAX_GUESSES && !hasWon()) {
             setGuesses([...guesses(), currentGuess()])
             setCurrentGuess("")
-
-            if (winningWord) {
-                setGameWon(true)
-                return
-            }
-
-            if (guesses.length === MAX_GUESSES - 1) {
-                setGameLost(true)
-                return
-            }
         }
     }
+
+    createEffect(() => {
+        console.log("currentGuess", currentGuess())
+    })
 
     return (
         <div class="h-screen flex flex-col">
             <NavBar />
             <div class="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
                 <div class="pb-6 grow">
-                    <Grid
-                        solution={solution}
-                        guesses={guesses()}
-                        currentGuess={currentGuess()}
-                        isRevealing={isRevealing()}
-                    />
+                    <Grid />
                 </div>
-                <Keyboard
-                    onChar={onChar}
-                    onDelete={onDelete}
-                    onEnter={onEnter}
-                    solution={solution}
-                    guesses={guesses()}
-                    isRevealing={isRevealing()}
-                />
+                <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
             </div>
         </div>
     )

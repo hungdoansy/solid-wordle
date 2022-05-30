@@ -1,5 +1,6 @@
 import { children, Component, JSX } from "solid-js"
 
+import { useGlobalState } from "contexts/globalState"
 import { REVEAL_TIME_MS } from "constants/settings"
 import { CharStatus } from "utils/statuses"
 import { solution } from "utils/words"
@@ -10,19 +11,21 @@ type Props = {
     width: number
     status?: CharStatus
     onClick: (value: string) => void
-    isRevealing?: boolean
 }
 
+const keyDelayInMs = REVEAL_TIME_MS * solution.length
+
 export const Key: Component<Props> = (props) => {
+    // TODO: may not need this?
     const resolved = children(() => props.children)
 
-    const keyDelayInMs = REVEAL_TIME_MS * solution.length
+    const { isRevealing } = useGlobalState()
 
     // TODO
     const isHighContrast = false
 
     const classList = () => ({
-        "transition ease-in-out": props.isRevealing,
+        "transition ease-in-out": isRevealing(),
         "bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 active:bg-slate-400": !props.status,
         "bg-slate-400 dark:bg-slate-800 text-white": props.status === CharStatus.Absent,
         "bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white":
@@ -36,7 +39,7 @@ export const Key: Component<Props> = (props) => {
     })
 
     const styles = () => ({
-        "transition-delay": props.isRevealing ? `${keyDelayInMs}ms` : "unset",
+        "transition-delay": isRevealing() ? `${keyDelayInMs}ms` : "unset",
         width: `${props.width}px`,
         height: "58px",
     })

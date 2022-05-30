@@ -96,3 +96,4 @@ export const getWordOfDay = () => {
 }
 
 export const { solution, solutionIndex, tomorrow } = getWordOfDay()
+console.log("solution", solution)

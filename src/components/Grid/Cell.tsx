@@ -1,22 +1,23 @@
 import { Component, mergeProps } from "solid-js"
 
-import { CharStatus } from "utils/statuses"
+import { useGlobalState } from "contexts/globalState"
 import { REVEAL_TIME_MS } from "constants/settings"
+import { CharStatus } from "utils/statuses"
 
 type Props = {
     value?: string
     status?: CharStatus
-    isRevealing?: boolean
     isCompleted?: boolean
     position?: number
 }
 
 export const Cell: Component<Props> = (_props) => {
     const props = mergeProps({ position: 0, value: "" }, _props)
+    const { isRevealing } = useGlobalState()
 
     const isHighContrast = false
     const isFilled = () => props.value && !props.isCompleted
-    const shouldReveal = () => props.isRevealing && props.isCompleted
+    const shouldReveal = () => isRevealing() && props.isCompleted
     const animationDelay = () => `${props.position * REVEAL_TIME_MS}ms`
 
     const classList = () => ({

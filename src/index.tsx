@@ -1,7 +1,14 @@
 /* @refresh reload */
-import "./index.css"
 import { render } from "solid-js/web"
-
+import { GlobalStateProvider } from "contexts/globalState"
 import App from "./App"
+import "./index.css"
 
-render(() => <App />, document.getElementById("root") as HTMLElement)
+render(
+    () => (
+        <GlobalStateProvider>
+            <App />
+        </GlobalStateProvider>
+    ),
+    document.getElementById("root") as HTMLElement
+)

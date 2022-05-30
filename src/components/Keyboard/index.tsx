@@ -1,8 +1,9 @@
 import { Index, onMount } from "solid-js"
 
+import { useGlobalState } from "contexts/globalState"
+import { ENTER_TEXT, DELETE_TEXT } from "constants/strings"
 import { getStatusesOfLetters } from "utils/statuses"
 import { localeAwareUpperCase } from "utils/words"
-import { ENTER_TEXT, DELETE_TEXT } from "constants/strings"
 
 import { Key } from "./Key"
 
@@ -10,13 +11,12 @@ type Props = {
     onChar: (value: string) => void
     onDelete: () => void
     onEnter: () => void
-    solution: string
-    guesses: string[]
-    isRevealing?: boolean
 }
 
 export const Keyboard = (props: Props) => {
-    const charStatuses = () => getStatusesOfLetters(props.solution, props.guesses)
+    const { answer, guesses } = useGlobalState()
+
+    const charStatuses = () => getStatusesOfLetters(answer, guesses())
 
     const onClick = (value: string) => {
         if (value === ENTER_TEXT) {
@@ -52,28 +52,12 @@ export const Keyboard = (props: Props) => {
         <div>
             <div class="flex justify-center mb-1">
                 <Index each={["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"]}>
-                    {(key) => (
-                        <Key
-                            width={40}
-                            value={key()}
-                            onClick={onClick}
-                            status={charStatuses()[key()]}
-                            isRevealing={props.isRevealing}
-                        />
-                    )}
+                    {(key) => <Key width={40} value={key()} onClick={onClick} status={charStatuses()[key()]} />}
                 </Index>
             </div>
             <div class="flex justify-center mb-1">
                 <Index each={["A", "S", "D", "F", "G", "H", "J", "K", "L"]}>
-                    {(key) => (
-                        <Key
-                            width={40}
-                            value={key()}
-                            onClick={onClick}
-                            status={charStatuses()[key()]}
-                            isRevealing={props.isRevealing}
-                        />
-                    )}
+                    {(key) => <Key width={40} value={key()} onClick={onClick} status={charStatuses()[key()]} />}
                 </Index>
             </div>
             <div class="flex justify-center">
@@ -81,15 +65,7 @@ export const Keyboard = (props: Props) => {
                     {ENTER_TEXT}
                 </Key>
                 <Index each={["Z", "X", "C", "V", "B", "N", "M"]}>
-                    {(key) => (
-                        <Key
-                            width={40}
-                            value={key()}
-                            onClick={onClick}
-                            status={charStatuses()[key()]}
-                            isRevealing={props.isRevealing}
-                        />
-                    )}
+                    {(key) => <Key width={40} value={key()} onClick={onClick} status={charStatuses()[key()]} />}
                 </Index>
                 <Key width={65.4} value={DELETE_TEXT} onClick={onClick}>
                     {DELETE_TEXT}
