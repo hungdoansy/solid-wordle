@@ -7,6 +7,7 @@ import NavBar from "components/NavBar"
 import { useGlobalState } from "contexts/globalState"
 import { MAX_GUESSES, REVEAL_TIME_MS } from "constants/settings"
 import { solution, unicodeLength } from "utils/words"
+import { saveGameStateToLocalStorage } from "utils/localStorage"
 
 const App: Component = () => {
     const { answer, currentGuess, setCurrentGuess, setRevealing, guesses, setGuesses } = useGlobalState()
@@ -45,6 +46,13 @@ const App: Component = () => {
             setCurrentGuess("")
         }
     }
+
+    createEffect(() => {
+        saveGameStateToLocalStorage({
+            guesses: guesses(),
+            answer,
+        })
+    })
 
     createEffect(() => {
         console.log("currentGuess", currentGuess())

@@ -8,6 +8,7 @@ import { Cell } from "./Cell"
 
 type Props = {
     guess: string
+    isRevealing?: boolean
 }
 
 export const CompletedRow: Component<Props> = (props) => {
@@ -19,7 +20,15 @@ export const CompletedRow: Component<Props> = (props) => {
     return (
         <div class="flex justify-center mb-1">
             <Index each={splitGuess()}>
-                {(letter, i) => <Cell value={letter()} status={statuses()[i]} position={i} isCompleted />}
+                {(letter, i) => (
+                    <Cell
+                        isRevealing={props.isRevealing}
+                        value={letter()}
+                        status={statuses()[i]}
+                        position={i}
+                        isCompleted
+                    />
+                )}
             </Index>
         </div>
     )

@@ -8,14 +8,18 @@ import { CurrentRow } from "./CurrentRow"
 import { EmptyRow } from "./EmptyRow"
 
 export const Grid: Component = () => {
-    const { guesses, currentGuess } = useGlobalState()
+    const { guesses, currentGuess, isRevealing } = useGlobalState()
 
     const empties = () =>
         guesses().length < MAX_GUESSES - 1 ? Array.from(Array(MAX_GUESSES - 1 - guesses().length)) : []
 
     return (
         <>
-            <Index each={guesses()}>{(guess) => <CompletedRow guess={guess()} />}</Index>
+            <Index each={guesses()}>
+                {(guess, i) => (
+                    <CompletedRow isRevealing={isRevealing() && i === guesses().length - 1} guess={guess()} />
+                )}
+            </Index>
 
             <Show when={guesses().length < MAX_GUESSES}>
                 <CurrentRow guess={currentGuess()} />

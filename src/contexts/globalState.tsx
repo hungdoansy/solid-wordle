@@ -1,4 +1,5 @@
-import { createSignal, createContext, useContext, Component, JSX, Accessor, Setter } from "solid-js"
+import { createSignal, createContext, useContext, Component, JSX, Accessor, Setter, onMount } from "solid-js"
+import { loadGameStateFromLocalStorage } from "utils/localStorage"
 import { solution as answer } from "utils/words"
 
 type IContext = {
@@ -30,6 +31,13 @@ export const GlobalStateProvider: Component<{ children: JSX.Element }> = (props)
         guesses,
         setGuesses,
     }
+
+    onMount(() => {
+        const loadedState = loadGameStateFromLocalStorage()
+        if (loadedState?.answer === answer) {
+            setGuesses(loadedState.guesses)
+        }
+    })
 
     return <GlobalContext.Provider value={store}>{props.children}</GlobalContext.Provider>
 }
